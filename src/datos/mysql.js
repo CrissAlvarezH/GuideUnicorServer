@@ -6,8 +6,8 @@ class MySql {
         this.conexion = mysql.createConnection({
             host: 'localhost',
             user: 'root', 
-            password: 'gyjy6ymy4', 
-            database: 'ubiety', 
+            password: 'guitarra1', 
+            database: 'ubietybd', 
             dateStrings: true
 
         });

@@ -33,7 +33,7 @@ class Servidor {
     }
 
     agregarRutas( rutas ) {
-        rutas.array.forEach(ruta => {
+        rutas.forEach(ruta => {
             this.app.use(ruta.rutaRaiz, ruta.enrutador);
         });
     }

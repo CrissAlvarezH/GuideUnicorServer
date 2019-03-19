@@ -33,12 +33,27 @@ class Servidor {
     }
 
     agregarRutas( rutas ) {
-        rutas.
-        .forEach(element => {
-            
+        rutas.array.forEach(ruta => {
+            this.app.use(ruta.rutaRaiz, ruta.enrutador);
         });
+    }
+
+    iniciar( callBack ) {
+        this.server.listen(this.puerto, callBack);
     }
 
 }
 
-module.exports = Servidor;
+class Singleton {
+    constructor() {
+        if ( !Singleton.instancia ) {
+            Singleton.instancia = new Servidor(4400);
+        }
+    }
+
+    getInstancia() {
+        return Singleton.instancia;
+    }
+}
+
+module.exports = Singleton;

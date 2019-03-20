@@ -3,7 +3,7 @@ var MySql = require('../datos/mysql');
 class BloqueModelo {
 
     static async insertar(bloque) {
-        var mysql = new MySql().getInstancia();
+        let  mysql = new MySql().getInstancia();
 
         let posicion = bloque.posicion;
 

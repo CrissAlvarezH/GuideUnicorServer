@@ -13,7 +13,7 @@ rutas.post('/insertar', (req, res) => {
     form.parse(req, async (err, fields, files) => {
 
         let idImg = await ImagenModelo.insertar( 
-            { fecha: fields.fecha, de: fields.de, idRelacion: fields.idRelacion }
+            { fecha: fields.fecha, de: fields.de, idRelacion: fields.id_relacion }
         );
         
         if ( idImg > 0 ) {

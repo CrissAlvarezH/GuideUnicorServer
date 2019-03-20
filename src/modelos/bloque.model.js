@@ -22,7 +22,7 @@ class BloqueModelo {
             [
                 bloque.nombre,
                 bloque.codigo,
-                bloque.id_zona,
+                bloque.idZona,
                 resInsertPos.insertId
             ]
         );

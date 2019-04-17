@@ -74,6 +74,16 @@ class BloqueModelo {
         return resUpdateBloque;
     }
 
+    static async getTodos() {
+        let  mysql = new MySql().getInstancia();
+
+        let resBloques = await mysql.query(
+            'SELECT *, id_zona AS idZona, id_posicion AS idPosicion FROM bloques'
+        );
+
+        return resBloques;
+    }
+
 }
 
 module.exports = BloqueModelo;

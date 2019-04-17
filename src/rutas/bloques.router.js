@@ -3,6 +3,28 @@ const BloqueModelo = require('../modelos/bloque.model');
 
 const rutas = Router();
 
+/* [ INICIO ] RUTAS GET */
+rutas.get('', (req, res) => {
+
+    BloqueModelo.getTodos()
+    .then( resp => {
+        res.json({
+            'okay': true,
+            'bloques': resp
+        });
+    })
+    .catch( err => {
+        console.log('ERROR AL INSERTAR BLOQUE ', err);
+
+        res.json({
+            'okay': false,
+            'error': err
+        });
+    });
+
+})
+/* [ FIN ] RUTAS GET */
+
 /* [ INICIO ] RUTAS POST */
 rutas.post('/insertar', (req, res) => {
     let bloque = req.body;
@@ -28,7 +50,11 @@ rutas.post('/insertar', (req, res) => {
 /* [ INICIO ] RUTAS PUT */
 rutas.put('/update-posicion', (req, res) => {
 
-    BloqueModelo.editarPosicion( req.body.posicion, req.body.idBloque )
+    BloqueModelo.editarPosicion( 
+        {
+            "latitud": req.body.latitud,
+            "longitud": req.body.longitud
+        }, req.body.idBloque )
         .then( resp => {
 
             if ( resp.affectedRows > 0 ) {

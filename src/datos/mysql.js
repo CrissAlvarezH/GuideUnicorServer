@@ -7,7 +7,7 @@ class MySql {
             host: 'localhost',
             user: 'root', 
             password: 'guitarra1', 
-            database: 'ubietybd', 
+            database: 'bloques_salones_temporal', 
             dateStrings: true
 
         });

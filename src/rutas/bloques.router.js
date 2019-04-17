@@ -25,5 +25,36 @@ rutas.post('/insertar', (req, res) => {
 });
 /* [ FIN ] RUTAS POST */
 
+/* [ INICIO ] RUTAS PUT */
+rutas.put('/update-posicion', (req, res) => {
+
+    BloqueModelo.editarPosicion( req.body.posicion, req.body.idBloque )
+        .then( resp => {
+
+            if ( resp.affectedRows > 0 ) {
+                res.json({
+                    'okay': true,
+                    'bloque': resp
+                });
+            } else {
+
+                res.json({
+                    'okay': false,
+                    'error': 'No se pudo hacer la actualización'
+                });
+            }
+            
+        })
+        .catch( err => {
+            console.log('ERROR AL ACTUALIZAR POSICION DE BLOQUE ', err);
+
+            res.json({
+                'okay': false,
+                'error': err
+            });
+        });
+});
+/* [ FIN ] RUTAS PUT */
+
 module.exports = rutas;
 

@@ -51,6 +51,29 @@ class BloqueModelo {
         return bloque;
     }
 
+    static async editarPosicion( posicion, idBloque ) {
+        let  mysql = new MySql().getInstancia();
+
+        let resInsertPos = await mysql.query(
+            `INSERT INTO posiciones (latitud, longitud)
+                VALUES (?, ?);`,
+            [
+                posicion.latitud,
+                posicion.longitud
+            ]
+        );
+
+        let resUpdateBloque = await mysql.query(
+            `UPDATE bloques SET id_posicion = ? WHERE id = ?;`,
+            [
+                resInsertPos.insertId,
+                idBloque
+            ]
+        );
+
+        return resUpdateBloque;
+    }
+
 }
 
 module.exports = BloqueModelo;

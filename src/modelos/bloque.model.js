@@ -84,6 +84,36 @@ class BloqueModelo {
         return resBloques;
     }
 
+    static async getUno( idBloque ) {
+        let  mysql = new MySql().getInstancia();
+
+        let resBloques = await mysql.query(
+            `SELECT bloques.*, bloques.id_zona AS idZona, bloques.id_posicion AS idPosicion 
+                FROM bloques
+                WHERE bloques.id = ?`,
+            [ idBloque ]
+        );
+
+        if ( resBloques.length > 0 ) {
+
+            let resPos = await mysql.query(
+                `SELECT * FROM posiciones WHERE id = ?`,
+                [ resBloques[0].id_posicion ]
+            );
+
+            if ( resPos.length > 0 && resPos[0].id != 19 ) { // La 19 es una posicion temporal
+                resBloques[0].latitud = resPos[0]; // agregamos la posicion a la respuesta
+            }
+
+            return resBloques[0];
+
+        }
+
+        
+
+        return undefined;
+    }
+
 }
 
 module.exports = BloqueModelo;

@@ -23,6 +23,26 @@ rutas.get('', (req, res) => {
     });
 
 })
+
+rutas.get('/:id', (req, res) => {
+
+    BloqueModelo.getUno( req.params.id )
+    .then( resp => {
+        res.json({
+            'okay': true,
+            'bloques': resp
+        });
+    })
+    .catch( err => {
+        console.log('ERROR AL INSERTAR BLOQUE ', err);
+
+        res.json({
+            'okay': false,
+            'error': err
+        });
+    });
+
+})
 /* [ FIN ] RUTAS GET */
 
 /* [ INICIO ] RUTAS POST */

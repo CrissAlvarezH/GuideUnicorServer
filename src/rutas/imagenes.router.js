@@ -12,38 +12,65 @@ rutas.post('/insertar', (req, res) => {
 
     form.parse(req, async (err, fields, files) => {
 
-        let idImg = await ImagenModelo.insertar( 
-            { fecha: fields.fecha, de: fields.de, idRelacion: fields.id_relacion }
-        );
-        
-        if ( idImg > 0 ) {
+        if ( fields.tipo == 'bloque' ) {
+            // Todas las imagenes vienen juntas
 
-            // Movemos la imagen para su carpeta respectiva
-            console.log( fields, files );
+            let ruta = `/root/node_proyectos/UbietyServer/src/archivos/imgs/bloques/${ fields.numBloque }`;
 
-            fs.rename(files.imagen.path, `/root/node_proyectos/UbietyServer/src/archivos/imgs/${fields.de}/${idImg}.jpg`, err => {
-                if ( err ) {
-                    console.log('ERROR AL MOVEL IMAGEN', err);
+            if ( !fs.existsSync(ruta) )  
+                fs.mkdirSync(ruta);
 
-                    return res.json({
-                        'okay': false,
-                        'error': 'No se pudo mover la imagen'
-                    });
-                }
+            for ( let n = 1; n <= fields.numImagenes; n++ ) {
+                await moverImagen( files['imagen'+n].path, ruta, n);
 
-                return res.json({
-                    'okay': true,
-                });
-            });
+                console.log(`Imagen ${n} del bloque ${fields.numBloque} guardada`);
+            }
 
-        } else {
             res.json({
-                'okay': false,
-                'error': 'No insertó la imagen'
+                'okay': true
             });
+
+        } else if ( fields.tipo == 'salon' ) {
+            // Los salones solo tienen una imagen
+
+            let ruta = `/root/node_proyectos/UbietyServer/src/archivos/imgs/salones`;
+
+            if ( !fs.existsSync(ruta) )
+                fs.mkdirSync();
+
+            moverImagen( files.imagen.path, ruta, fields.numSalon )
+                .then( resp => {
+                    res.json({
+                        'okay': true
+                    });
+                })
+                .catch( error => {
+                    res.json({
+                        'okay': false
+                    });
+                });
+
         }
+
     });
 });
+
+function moverImagen(rutaVieja, rutaNueva, nombre) {
+
+    return new Promise( (resolve, reject) => {
+        fs.rename( rutaVieja, rutaNueva + `/${ nombre }.jpg`, err => {
+                        
+            if ( err ) {
+                console.log('>>> ERROR AL GUARDARSE IMAGEN DE BLOQUE', err);
+
+                reject();
+            }
+
+            resolve();
+        });
+    });
+}
+
 /* [ FIN ] RUTAS POST */
 
 module.exports = rutas;

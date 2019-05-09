@@ -102,7 +102,7 @@ class BloqueModelo {
             );
 
             if ( resPos.length > 0 && resPos[0].id != 19 ) { // La 19 es una posicion temporal
-                resBloques[0].latitud = resPos[0]; // agregamos la posicion a la respuesta
+                resBloques[0].posicion = resPos[0]; // agregamos la posicion a la respuesta
             }
 
             return resBloques[0];

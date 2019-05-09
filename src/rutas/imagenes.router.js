@@ -15,7 +15,7 @@ rutas.post('/insertar', (req, res) => {
         if ( fields.tipo == 'bloque' ) {
             // Todas las imagenes vienen juntas
 
-            let ruta = `/root/node_proyectos/UbietyServer/src/archivos/imgs/bloques/${ fields.numBloque }`;
+            let ruta = `/var/www/html/imagenes_unicor/bloques/${ fields.numBloque }`;
 
             if ( !fs.existsSync(ruta) )  
                 fs.mkdirSync(ruta);

@@ -21,7 +21,7 @@ rutas.post('/insertar', (req, res) => {
             // Movemos la imagen para su carpeta respectiva
             console.log( fields, files );
 
-            fs.rename(files.imagen.path, `./src/archivos/imgs/${fields.de}/${idImg}.jpg`, err => {
+            fs.rename(files.imagen.path, `/root/node_proyectos/UbietyServer/src/archivos/imgs/${fields.de}/${idImg}.jpg`, err => {
                 if ( err ) {
                     console.log('ERROR AL MOVEL IMAGEN', err);
 

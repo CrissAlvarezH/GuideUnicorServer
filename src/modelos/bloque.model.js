@@ -84,6 +84,32 @@ class BloqueModelo {
         return resBloques;
     }
 
+    static async getInfoTodos() {
+        let  mysql = new MySql().getInstancia();
+
+        let resBloques = await mysql.query(
+            'SELECT *, id_zona AS idZona, id_posicion AS idPosicion FROM bloques'
+        );
+
+        for ( let bloque of resBloques ) {
+            let resPos = await mysql.query(
+                'SELECT * FROM posiciones WHERE id = ?',
+                [ bloque.id_posicion ]
+            );
+
+            if ( resPos.length > 0 ) bloque.posicion = resPos[0];
+
+            let resSalones = await mysql.query(
+                'SELECT * FROM salones WHERE id_bloque = ?',
+                [ bloque.id ]
+            );
+
+            bloque.salones = resSalones;
+        }
+
+        return resBloques;
+    }
+
     static async getUno( idBloque ) {
         let  mysql = new MySql().getInstancia();
 

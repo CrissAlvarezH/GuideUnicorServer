@@ -94,6 +94,7 @@ class BloqueModelo {
         );
 
         for ( let bloque of resBloques ) {
+            // Obtenemos la posicino del bloque
             let resPos = await mysql.query(
                 'SELECT * FROM posiciones WHERE id = ?',
                 [ bloque.id_posicion ]
@@ -101,12 +102,21 @@ class BloqueModelo {
 
             if ( resPos.length > 0 ) bloque.posicion = resPos[0];
 
+            // Obtenemos los salones del bloque
             let resSalones = await mysql.query(
                 'SELECT id FROM salones WHERE id_bloque = ?',
                 [ bloque.id ]
             );
 
             bloque.salones = resSalones;
+
+            // Le agregamos los pisos
+            let resPisos = await mysql.query(
+                'SELECT piso, COUNT(id) as cantSalones FROM salones WHERE id_bloque = ? GROUP BY piso',
+                [ bloque.id ]
+            );
+
+            if ( resPisos.length > 0 ) bloque.pisos = resPisos;
         }
 
         let resSalones = await mysql.query(

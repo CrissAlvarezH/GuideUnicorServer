@@ -30,7 +30,7 @@ rutas.get('/info-bloques', (req, res) => {
     .then( resp => {
         res.json({
             'okay': true,
-            'bloques': resp
+            'info': resp
         });
     })
     .catch( err => {

@@ -87,6 +87,8 @@ class BloqueModelo {
     static async getInfoTodos() {
         let  mysql = new MySql().getInstancia();
 
+        let respuesta = { bloques: [], salones: [] };
+
         let resBloques = await mysql.query(
             'SELECT *, id_zona AS idZona, id_posicion AS idPosicion FROM bloques'
         );
@@ -100,14 +102,21 @@ class BloqueModelo {
             if ( resPos.length > 0 ) bloque.posicion = resPos[0];
 
             let resSalones = await mysql.query(
-                'SELECT * FROM salones WHERE id_bloque = ?',
+                'SELECT id FROM salones WHERE id_bloque = ?',
                 [ bloque.id ]
             );
 
             bloque.salones = resSalones;
         }
 
-        return resBloques;
+        let resSalones = await mysql.query(
+            'SELECT * FROM salones'
+        );
+
+        respuesta.bloques = resBloques;
+        respuesta.salones = resSalones;
+
+        return respuesta;
     }
 
     static async getUno( idBloque ) {
